@@ -1,0 +1,13 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: emby
+spec:
+  selector:
+    app: emby
+  ports:
+  - protocol: TCP
+    port: 8096
+    targetPort: 8096
+  type: NodePort

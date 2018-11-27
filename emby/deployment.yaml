@@ -1,0 +1,44 @@
+---
+ apiVersion: apps/v1
+ kind: Deployment
+ metadata:
+   name: emby
+   labels:
+     app: emby
+ spec:
+   replicas: 1
+   selector:
+      matchLabels:
+        app: emby
+   template:
+     metadata:
+       labels:
+         app: emby
+ 
+     spec:
+      containers:
+         - name: emby
+           image: harbor.casa.lan/multimedia/emby:latest
+           env:
+           - name: UID
+             value: "10000"
+           - name: GID
+             value: "10000"
+           - name: GIDLIST
+             value: "10000"
+           resources:
+             limits:
+               memory: "20Gi"
+               cpu: "8000m"
+           volumeMounts:
+             - mountPath: /config
+               name: emby-config
+             - mountPath: /media
+               name: multimedia
+      volumes:
+        - name: emby-config
+          hostPath:
+            path: /sharedfolders/configs/emby
+        - name: multimedia
+          hostPath:
+            path: /sharedfolders/videos/

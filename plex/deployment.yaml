@@ -1,0 +1,51 @@
+---
+ apiVersion: apps/v1
+ kind: Deployment
+ metadata:
+   name: plex
+   labels:
+     app: plex
+ spec:
+   replicas: 1
+   selector:
+      matchLabels:
+        app: plex
+   template:
+     metadata:
+       labels:
+         app: plex
+ 
+     spec:
+      containers:
+         - name: emby
+           image: harbor.casa.lan/multimedia/plex:latest
+           env:
+           - name: UID
+             value: "10000"
+           - name: GID
+             value: "10000"
+           - name: GIDLIST
+             value: "10000"
+           - name: TZ
+             value: "America/Sao_Paulo"
+           resources:
+             limits:
+               memory: "4Gi"
+               cpu: "2000m"
+           volumeMounts:
+             - mountPath: /config
+               name: plex-config
+             - mountPath: /media
+               name: multimedia
+             - mountPath: /transcode
+               name: transcode
+      volumes:
+        - name: plex-config
+          hostPath:
+            path: /sharedfolders/configs/plex
+        - name: multimedia
+          hostPath:
+            path: /sharedfolders/videos/
+        - name: transcode
+          hostPath:
+            path: /sharedfolders/transcode/

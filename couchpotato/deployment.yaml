@@ -1,0 +1,51 @@
+---
+ apiVersion: apps/v1
+ kind: Deployment
+ metadata:
+   name: couchpotato
+   labels:
+     app: couchpotato
+ spec:
+   replicas: 1
+   selector:
+      matchLabels:
+        app: couchpotato
+   template:
+     metadata:
+       labels:
+         app: couchpotato
+ 
+     spec:
+      containers:
+         - name: couchpotato
+           image: harbor.casa.lan/multimedia/couchpotato:latest
+           env:
+           - name: PGID
+             value: "10000"
+           - name: PUID
+             value: "10000"
+           - name: TZ
+             value: "America/Sao_Paulo"
+           - name: UMASK_SET
+             value: "022"
+           resources:
+             limits:
+               memory: "2Gi"
+               cpu: "500m"
+           volumeMounts:
+             - mountPath: /config
+               name: couchpotato-config
+             - mountPath: /media
+               name: movies
+             - mountPath: /p2p
+               name: downloads
+      volumes:
+        - name: couchpotato-config
+          hostPath:
+            path: /sharedfolders/configs/couchpotato
+        - name: movies
+          hostPath:
+            path: /sharedfolders/videos
+        - name: downloads
+          hostPath:
+            path: /sharedfolders/p2p

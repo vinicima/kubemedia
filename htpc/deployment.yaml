@@ -1,0 +1,35 @@
+---
+ apiVersion: apps/v1
+ kind: Deployment
+ metadata:
+   name: htpc
+   labels:
+     app: htpc
+ spec:
+   replicas: 1
+   selector:
+      matchLabels:
+        app: htpc
+   template:
+     metadata:
+       labels:
+         app: htpc
+ 
+     spec:
+      containers:
+         - name: htpc
+           image: harbor.casa.lan/multimedia/htpc:latest
+           env:
+           - name: PGID
+             value: "10000"
+           - name: PUID
+             value: "10000"
+           - name: TZ
+             value: "America/Sao_Paulo"
+           volumeMounts:
+             - mountPath: /config
+               name: htpc-config
+      volumes:
+        - name: htpc-config
+          hostPath:
+            path: /sharedfolders/configs/htpc

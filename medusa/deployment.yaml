@@ -1,0 +1,49 @@
+---
+ apiVersion: apps/v1
+ kind: Deployment
+ metadata:
+   name: medusa
+   labels:
+     app: medusa
+ spec:
+   replicas: 1
+   selector:
+      matchLabels:
+        app: medusa
+   template:
+     metadata:
+       labels:
+         app: medusa
+ 
+     spec:
+      containers:
+         - name: medusa
+           image: harbor.casa.lan/multimedia/medusa:latest
+           env:
+           - name: PGID
+             value: "10000"
+           - name: PUID
+             value: "10000"
+           - name: TZ
+             value: "America/Sao_Paulo"
+           resources:
+             limits:
+               memory: "2Gi"
+               cpu: "1000m"
+           volumeMounts:
+             - mountPath: /config
+               name: medusa-config
+             - mountPath: /media
+               name: videos
+             - mountPath: /p2p
+               name: downloads
+      volumes:
+        - name: medusa-config
+          hostPath:
+            path: /sharedfolders/configs/medusa
+        - name: downloads
+          hostPath:
+            path: /sharedfolders/p2p
+        - name: videos
+          hostPath:
+            path: /sharedfolders/videos/

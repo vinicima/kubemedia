@@ -1,0 +1,49 @@
+---
+ apiVersion: apps/v1
+ kind: Deployment
+ metadata:
+   name: transmission
+   labels:
+     app: transmission
+ spec:
+   replicas: 1
+   selector:
+      matchLabels:
+        app: transmission
+   template:
+     metadata:
+       labels:
+         app: transmission
+ 
+     spec:
+      containers:
+         - name: transmission
+           image: harbor.casa.lan/multimedia/transmission:latest
+           env:
+           - name: PGID
+             value: "10000"
+           - name: PUID
+             value: "10000"
+           - name: TZ
+             value: "America/Sao_Paulo"
+           resources:
+             limits:
+               memory: "2Gi"
+               cpu: "500m"
+           volumeMounts:
+             - mountPath: /config
+               name: transmission-config
+             - mountPath: /p2p
+               name: transmission-download
+             - mountPath: /watch
+               name: transmission-watch
+      volumes:
+        - name: transmission-config
+          hostPath:
+            path: /sharedfolders/configs/transmission
+        - name: transmission-download
+          hostPath:
+            path: /sharedfolders/p2p
+        - name: transmission-watch
+          hostPath:
+            path: /sharedfolders/p2p/watch2

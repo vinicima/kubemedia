@@ -1,0 +1,45 @@
+---
+ apiVersion: apps/v1
+ kind: Deployment
+ metadata:
+   name: sabnzbd
+   labels:
+     app: sabnzbd
+ spec:
+   replicas: 1
+   selector:
+      matchLabels:
+        app: sabnzbd
+   template:
+     metadata:
+       labels:
+         app: sabnzbd
+ 
+     spec:
+      containers:
+         - name: sabnzbd
+           #image: sabnzbd/sabnzbd:latest
+           image: harbor.casa.lan/multimedia/sabnzbd:latest
+           env:
+           - name: SABNZBD_UID
+             value: "10000"
+           - name: SABNZBD_GID
+             value: "10000"
+           - name: TZ
+             value: "America/Sao_Paulo"
+           volumeMounts:
+             - mountPath: /datadir
+               name: sabnzbd-config
+             - mountPath: /p2p
+               name: sabnzbd-downloads
+      volumes:
+        - name: sabnzbd-config
+          hostPath:
+            path: /sharedfolders/configs/sabnzbd
+        - name: sabnzbd-downloads
+          hostPath:
+            path: /sharedfolders/p2p
+            #dnsPolicy: "None"
+            #dnsConfig:
+            # nameservers:
+            #- 192.168.254.254
