@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: config-client-provisioner
+  namespace: default
+---
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: config-client-provisioner
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: config-client-provisioner
+    spec:
+      serviceAccountName: config-client-provisioner
+      containers:
+        - name: config-client-provisioner
+          image: quay.io/external_storage/nfs-client-provisioner:latest
+          volumeMounts:
+            - name: config-client-root
+              mountPath: /persistentvolumes #Não alterar, metadados e deve ser este valor
+          env:
+            - name: PROVISIONER_NAME
+              value: config.casa.lan #Nome do cluster e path
+            - name: NFS_SERVER
+              value: drake # IP do NFS_SERVER
+            - name: NFS_PATH
+              value: /export/configs # Exports do NFS
+      volumes:
+        - name: config-client-root
+          nfs:
+            server: drake  #IP do NFS_SERVER
+            path: /export/configs #Exports do NFS_SERVER

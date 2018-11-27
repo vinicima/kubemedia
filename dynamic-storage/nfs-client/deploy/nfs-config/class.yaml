@@ -1,0 +1,8 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-config
+  namespace: default
+provisioner: config.casa.lan # Deve ser o mesmo nome do arquivo deployment na variavel PROVISIONER_NAME - 'env PROVISIONER_NAME'
+parameters:
+  archiveOnDelete: "true"

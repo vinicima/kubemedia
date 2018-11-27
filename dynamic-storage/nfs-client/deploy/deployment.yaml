@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: nfs-client-provisioner
+  namespace: default
+---
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: nfs-client-provisioner
+spec:
+  replicas: 2
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: nfs-client-provisioner
+    spec:
+      serviceAccountName: nfs-client-provisioner
+      containers:
+        - name: nfs-client-provisioner
+          image: quay.io/external_storage/nfs-client-provisioner:latest
+          volumeMounts:
+            - name: nfs-client-root
+              mountPath: /persistentvolumes #Não alterar, metadados e deve ser este valor
+          env:
+            - name: PROVISIONER_NAME
+              value: nfs1.mapfre.net #Nome do cluster e path
+            - name: NFS_SERVER
+              value: nfs1.mapfre.net # IP do NFS_SERVER
+            - name: NFS_PATH
+              value: /export # Exports do NFS
+      volumes:
+        - name: nfs-client-root
+          nfs:
+            server: nfs1.mapfre.net  #IP do NFS_SERVER
+            path: /export #Exports do NFS_SERVER
