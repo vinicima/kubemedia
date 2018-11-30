@@ -1,0 +1,40 @@
+---
+ apiVersion: apps/v1
+ kind: Deployment
+ metadata:
+   name: lychee
+   labels:
+     app: lychee
+ spec:
+   replicas: 1
+   selector:
+      matchLabels:
+        app: lychee
+   template:
+     metadata:
+       labels:
+         app: lychee
+ 
+     spec:
+      containers:
+         - name: lychee
+           image: harbor.casa.lan/multimedia/lychee:latest
+           env:
+           - name: PGID
+             value: "10000"
+           - name: PUID
+             value: "10000"
+           - name: TZ
+             value: "America/Sao_Paulo"
+           volumeMounts:
+             - mountPath: /config
+               name: lychee-config
+             - mountPath: /pictures
+               name: pictures
+      volumes:
+        - name: lychee-config
+          hostPath:
+            path: /sharedfolders/configs/lychee
+        - name: pictures
+          hostPath:
+            path: /sharedfolders/fotos

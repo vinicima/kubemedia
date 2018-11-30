@@ -1,0 +1,13 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: bazarr
+spec:
+  selector:
+    app: bazarr
+  ports:
+  - protocol: TCP
+    port: 6767
+    targetPort: 6767
+  type: ClusterIP

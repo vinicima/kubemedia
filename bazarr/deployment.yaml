@@ -1,0 +1,44 @@
+---
+ apiVersion: apps/v1
+ kind: Deployment
+ metadata:
+   name: bazarr
+   labels:
+     app: bazarr
+ spec:
+   replicas: 1
+   selector:
+      matchLabels:
+        app: bazarr
+   template:
+     metadata:
+       labels:
+         app: bazarr
+ 
+     spec:
+      containers:
+         - name: bazarr
+           image: harbor.casa.lan/multimedia/bazarr:latest
+           env:
+           - name: PGID
+             value: "10000"
+           - name: PUID
+             value: "10000"
+           - name: TZ
+             value: "America/Sao_Paulo"
+           resources:
+             limits:
+               memory: "1Gi"
+               cpu: "500m"
+           volumeMounts:
+             - mountPath: /config
+               name: bazarr-config
+             - mountPath: /media
+               name: media
+      volumes:
+        - name: bazarr-config
+          hostPath:
+            path: /sharedfolders/configs/bazarr
+        - name: media
+          hostPath:
+            path: /sharedfolders/videos

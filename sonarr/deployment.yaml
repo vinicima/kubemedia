@@ -2,23 +2,23 @@
  apiVersion: apps/v1
  kind: Deployment
  metadata:
-   name: transmission
+   name: sonarr
    labels:
-     app: transmission
+     app: sonarr
  spec:
    replicas: 1
    selector:
       matchLabels:
-        app: transmission
+        app: sonarr
    template:
      metadata:
        labels:
-         app: transmission
+         app: sonarr
  
      spec:
       containers:
-         - name: transmission
-           image: harbor.casa.lan/multimedia/transmission:latest
+         - name: sonarr
+           image: harbor.casa.lan/multimedia/sonarr:latest
            env:
            - name: PGID
              value: "10000"
@@ -32,18 +32,24 @@
                cpu: "2000m"
            volumeMounts:
              - mountPath: /config
-               name: transmission-config
+               name: sonarr-config
+             - mountPath: /media
+               name: movies
              - mountPath: /p2p
-               name: transmission-download
-             - mountPath: /watch
-               name: transmission-watch
+               name: downloads
+             - mountPath: /etc/localtime
+               name: localtime
       volumes:
-        - name: transmission-config
+        - name: sonarr-config
           hostPath:
-            path: /sharedfolders/configs/transmission
-        - name: transmission-download
+            path: /sharedfolders/configs/sonarr
+        - name: movies
+          hostPath:
+            path: /sharedfolders/videos
+        - name: downloads
           hostPath:
             path: /sharedfolders/p2p
-        - name: transmission-watch
+        - name: localtime
           hostPath:
-            path: /sharedfolders/p2p/watch2
+            path: /etc/localtime
+            type: File
