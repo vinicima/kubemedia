@@ -1,0 +1,46 @@
+---
+ apiVersion: apps/v1
+ kind: Deployment
+ metadata:
+   name: jackett
+   labels:
+     app: jackett
+ spec:
+   replicas: 1
+   selector:
+      matchLabels:
+        app: jackett
+   template:
+     metadata:
+       labels:
+         app: jackett
+ 
+     spec:
+      containers:
+         - name: jackett
+           image: harbor.casa.lan/multimedia/jackett:latest
+           env:
+           - name: PGID
+             value: "10000"
+           - name: PUID
+             value: "10000"
+           - name: TZ
+             value: "America/Sao_Paulo"
+           volumeMounts:
+             - mountPath: /config
+               name: jackett-config
+             - mountPath: /downloads
+               name: watch
+             - mountPath: /etc/localtime
+               name: localtime
+      volumes:
+        - name: jackett-config
+          hostPath:
+            path: /sharedfolders/data/jackett
+        - name: watch
+          hostPath:
+            path: /sharedfolders/P2P/watch
+        - name: localtime
+          hostPath:
+            path: /etc/localtime
+            type: File

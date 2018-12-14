@@ -32,4 +32,4 @@
       volumes:
         - name: htpc-config
           hostPath:
-            path: /sharedfolders/configs/htpc
+            path: /sharedfolders/data/htpc

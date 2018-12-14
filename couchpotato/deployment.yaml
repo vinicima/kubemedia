@@ -28,10 +28,6 @@
              value: "America/Sao_Paulo"
            - name: UMASK_SET
              value: "022"
-           resources:
-             limits:
-               memory: "2Gi"
-               cpu: "500m"
            volumeMounts:
              - mountPath: /config
                name: couchpotato-config
@@ -42,10 +38,10 @@
       volumes:
         - name: couchpotato-config
           hostPath:
-            path: /sharedfolders/configs/couchpotato
+            path: /sharedfolders/data/couchpotato
         - name: movies
           hostPath:
-            path: /sharedfolders/videos
+            path: /sharedfolders/Videos
         - name: downloads
           hostPath:
-            path: /sharedfolders/p2p
+            path: /sharedfolders/P2P

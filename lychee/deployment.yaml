@@ -34,7 +34,7 @@
       volumes:
         - name: lychee-config
           hostPath:
-            path: /sharedfolders/configs/lychee
+            path: /sharedfolders/data/lychee
         - name: pictures
           hostPath:
-            path: /sharedfolders/fotos
+            path: /sharedfolders/Fotos

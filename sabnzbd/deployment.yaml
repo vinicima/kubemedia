@@ -35,10 +35,10 @@
       volumes:
         - name: sabnzbd-config
           hostPath:
-            path: /sharedfolders/configs/sabnzbd
+            path: /sharedfolders/data/sabnzbd
         - name: sabnzbd-downloads
           hostPath:
-            path: /sharedfolders/p2p
+            path: /sharedfolders/P2P
             #dnsPolicy: "None"
             #dnsConfig:
             # nameservers:

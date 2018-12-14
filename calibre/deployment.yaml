@@ -1,0 +1,33 @@
+---
+ apiVersion: apps/v1
+ kind: Deployment
+ metadata:
+   name: calibre
+   labels:
+     app: calibre
+ spec:
+   replicas: 1
+   selector:
+      matchLabels:
+        app: calibre
+   template:
+     metadata:
+       labels:
+         app: calibre
+ 
+     spec:
+      containers:
+         - name: calibre
+           image: harbor.casa.lan/multimedia/calibre:latest
+           env:
+           - name: PGID
+             value: "10000"
+           - name: PUID
+             value: "10000"
+           volumeMounts:
+             - mountPath: /config
+               name: calibre-config
+      volumes:
+        - name: calibre-config
+          hostPath:
+            path: /sharedfolders/data/calibre

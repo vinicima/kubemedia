@@ -1,0 +1,13 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: jackett
+spec:
+  selector:
+    app: jackett
+  ports:
+  - protocol: TCP
+    port: 9117
+    targetPort: 9117
+  type: ClusterIP

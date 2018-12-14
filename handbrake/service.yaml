@@ -1,0 +1,26 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: handbrake
+spec:
+  selector:
+    app: handbrake
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
+  type: ClusterIP
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: handbrake-rdp
+spec:
+  selector:
+    app: handbrake
+  ports:
+  - protocol: TCP
+    port: 3389
+    targetPort: 3389
+  type: NodePort

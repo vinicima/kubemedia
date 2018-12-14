@@ -28,24 +28,15 @@
              value: "10000"
            - name: TZ
              value: "America/Sao_Paulo"
-           resources:
-             limits:
-               memory: "4Gi"
-               cpu: "2000m"
            volumeMounts:
              - mountPath: /config
                name: plex-config
              - mountPath: /media
                name: multimedia
-             - mountPath: /transcode
-               name: transcode
       volumes:
         - name: plex-config
           hostPath:
-            path: /sharedfolders/configs/plex
+            path: /sharedfolders/data/plex
         - name: multimedia
           hostPath:
-            path: /sharedfolders/videos/
-        - name: transcode
-          hostPath:
-            path: /sharedfolders/transcode/
+            path: /sharedfolders/Videos/

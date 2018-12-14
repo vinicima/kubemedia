@@ -1,0 +1,37 @@
+---
+ apiVersion: apps/v1
+ kind: Deployment
+ metadata:
+   name: duplicati
+   labels:
+     app: duplicati
+ spec:
+   replicas: 1
+   selector:
+      matchLabels:
+        app: duplicati
+   template:
+     metadata:
+       labels:
+         app: duplicati
+ 
+     spec:
+      containers:
+         - name: duplicati
+           image: harbor.casa.lan/multimedia/duplicati:latest
+           env:
+           - name: PGID
+             value: "10000"
+           - name: PUID
+             value: "10000"
+           volumeMounts:
+             - mountPath: /config
+               name: duplicati-config
+             - mountPath: /backups
+               name: backups
+             - mountPath: /source
+               name: Folders
+      volumes:
+        - name: duplicati-config
+          hostPath:
+            path: /sharedfolders/data/duplicati

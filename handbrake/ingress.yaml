@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: handbrake
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    ingress.kubernetes.io/rewrite-target: /
+    ingress.kubernetes.io/ssl-redirect: "false"
+    ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+
+spec:
+  tls:
+  - hosts:
+    - handbrake.casa.lan
+    secretName: casa.lan
+  rules:
+  - host: handbrake.casa.lan
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: handbrake
+          servicePort: 8080

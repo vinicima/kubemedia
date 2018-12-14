@@ -26,24 +26,20 @@
              value: "10000"
            - name: TZ
              value: "America/Sao_Paulo"
-           resources:
-             limits:
-               memory: "2Gi"
-               cpu: "500m"
            volumeMounts:
              - mountPath: /config
                name: radarr-config
              - mountPath: /media
                name: movies
-             - mountPath: /p2p
-               name: downloads
+             - mountPath: /p2p/complete
+               name: complete
       volumes:
         - name: radarr-config
           hostPath:
-            path: /sharedfolders/configs/radarr
+            path: /sharedfolders/data/radarr
         - name: movies
           hostPath:
-            path: /sharedfolders/videos
-        - name: downloads
+            path: /sharedfolders/Videos
+        - name: complete
           hostPath:
-            path: /sharedfolders/p2p
+            path: /srv/dev-disk-by-id-dm-name-vg_dados-lvol1/transcode

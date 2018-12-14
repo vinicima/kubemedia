@@ -26,10 +26,6 @@
              value: "10000"
            - name: GIDLIST
              value: "10000"
-           resources:
-             limits:
-               memory: "20Gi"
-               cpu: "8000m"
            volumeMounts:
              - mountPath: /config
                name: emby-config
@@ -38,7 +34,7 @@
       volumes:
         - name: emby-config
           hostPath:
-            path: /sharedfolders/configs/emby
+            path: /sharedfolders/data/emby
         - name: multimedia
           hostPath:
-            path: /sharedfolders/videos/
+            path: /sharedfolders/Videos/

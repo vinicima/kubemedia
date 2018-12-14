@@ -30,9 +30,9 @@ spec:
             - name: NFS_SERVER
               value: drake # IP do NFS_SERVER
             - name: NFS_PATH
-              value: /export/storage # Exports do NFS
+              value: /export/dynamic-storage # Exports do NFS
       volumes:
         - name: storage-client-root
           nfs:
             server: drake  #IP do NFS_SERVER
-            path: /export/storage #Exports do NFS_SERVER
+            path: /export/dynamic-storage #Exports do NFS_SERVER

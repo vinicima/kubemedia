@@ -1,0 +1,63 @@
+---
+ apiVersion: apps/v1
+ kind: Deployment
+ metadata:
+   name: handbrake
+   labels:
+     app: handbrake
+ spec:
+   replicas: 1
+   selector:
+      matchLabels:
+        app: handbrake
+   template:
+     metadata:
+       labels:
+         app: handbrake
+ 
+     spec:
+      containers:
+         - name: handbrake
+           image: harbor.casa.lan/multimedia/handbrake:latest
+           securityContext:
+             capabilities:
+               add:
+                 - SYS_NICE
+           env:
+           - name: USER_ID
+             value: "10000"
+           - name: GROUP_ID
+             value: "10000"
+           - name: TZ
+             value: "America/Sao_Paulo"
+           - name: KEEP_APP_RUNNING
+             value: "1"
+           - name: APP_NICENESS
+             value: "-10"
+           - name: AUTOMATED_CONVERSION_PRESET
+             value: "H.265 MKV 720p30"
+           - name: AUTOMATED_CONVERSION_FORMAT
+             value: "mkv"
+           - name: AUTOMATED_CONVERSION_KEEP_SOURCE
+             value: "0"
+           - name: AUTOMATED_CONVERSION_SOURCE_STABLE_TIME
+             value: "10"
+           - name: AUTOMATED_CONVERSION_SOURCE_MIN_DURATION
+             value: "60"
+           volumeMounts:
+             - mountPath: /config
+               name: handbrake-config
+             - mountPath: /watch
+               name: watch
+             - mountPath: /output
+               name: output
+      volumes:
+        - name: handbrake-config
+          hostPath:
+            path: /sharedfolders/data/handbrake
+        - name: output
+          hostPath:
+            path: /srv/dev-disk-by-id-dm-name-vg_dados-lvol1/transcode
+        - name: watch
+          hostPath:
+            path: /sharedfolders/P2P/complete/

@@ -26,30 +26,26 @@
              value: "10000"
            - name: TZ
              value: "America/Sao_Paulo"
-           resources:
-             limits:
-               memory: "2Gi"
-               cpu: "2000m"
            volumeMounts:
              - mountPath: /config
                name: sonarr-config
              - mountPath: /media
                name: movies
-             - mountPath: /p2p
-               name: downloads
+             - mountPath: /p2p/complete
+               name: complete
              - mountPath: /etc/localtime
                name: localtime
       volumes:
         - name: sonarr-config
           hostPath:
-            path: /sharedfolders/configs/sonarr
+            path: /sharedfolders/data/sonarr
         - name: movies
           hostPath:
-            path: /sharedfolders/videos
-        - name: downloads
-          hostPath:
-            path: /sharedfolders/p2p
+            path: /sharedfolders/Videos
         - name: localtime
           hostPath:
             path: /etc/localtime
             type: File
+        - name: complete
+          hostPath:
+            path: /srv/dev-disk-by-id-dm-name-vg_dados-lvol1/transcode

@@ -38,7 +38,7 @@
       volumes:
         - name: bazarr-config
           hostPath:
-            path: /sharedfolders/configs/bazarr
+            path: /sharedfolders/data/bazarr
         - name: media
           hostPath:
-            path: /sharedfolders/videos
+            path: /sharedfolders/Videos

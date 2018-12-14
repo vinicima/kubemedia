@@ -26,24 +26,20 @@
              value: "10000"
            - name: TZ
              value: "America/Sao_Paulo"
-           resources:
-             limits:
-               memory: "2Gi"
-               cpu: "2000m"
            volumeMounts:
              - mountPath: /config
                name: transmission-config
              - mountPath: /p2p
                name: transmission-download
              - mountPath: /watch
-               name: transmission-watch
+               name: watch
       volumes:
         - name: transmission-config
           hostPath:
-            path: /sharedfolders/configs/transmission
+            path: /sharedfolders/data/transmission
         - name: transmission-download
           hostPath:
-            path: /sharedfolders/p2p
-        - name: transmission-watch
+            path: /sharedfolders/P2P
+        - name: watch
           hostPath:
-            path: /sharedfolders/p2p/watch2
+            path: /sharedfolders/P2P/watch
