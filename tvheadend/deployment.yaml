@@ -1,0 +1,40 @@
+---
+ apiVersion: apps/v1
+ kind: Deployment
+ metadata:
+   name: tvheadend
+   labels:
+     app: tvheadend
+ spec:
+   replicas: 1
+   selector:
+      matchLabels:
+        app: tvheadend
+   template:
+     metadata:
+       labels:
+         app: tvheadend
+ 
+     spec:
+      containers:
+         - name: tvheadend
+           image: harbor.casa.lan/multimedia/tvheadend:latest
+           env:
+           - name: PGID
+             value: "10000"
+           - name: PUID
+             value: "10000"
+           - name: TZ
+             value: "America/Sao_Paulo"
+           volumeMounts:
+             - mountPath: /config
+               name: tvheadend-config
+             - mountPath: /media
+               name: videos
+      volumes:
+        - name: tvheadend-config
+          hostPath:
+            path: /sharedfolders/data/tvheadend
+        - name: videos
+          hostPath:
+            path: /sharedfolders/Videos/TVREC

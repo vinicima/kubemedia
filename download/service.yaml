@@ -1,0 +1,39 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: download
+spec:
+  selector:
+    app: download
+  ports:
+  - protocol: TCP
+    port: 8000
+    targetPort: 8000
+  type: ClusterIP
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: download-ssh
+spec:
+  selector:
+    app: download
+  ports:
+  - protocol: TCP
+    port: 22
+    targetPort: 22
+  type: NodePort
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: download-tcp
+spec:
+  selector:
+    app: download
+  ports:
+  - protocol: TCP
+    port: 7227
+    targetPort: 7227
+  type: ClusterIP

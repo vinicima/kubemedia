@@ -1,0 +1,40 @@
+---
+ apiVersion: apps/v1
+ kind: Deployment
+ metadata:
+   name: webgrabplus
+   labels:
+     app: webgrabplus
+ spec:
+   replicas: 1
+   selector:
+      matchLabels:
+        app: webgrabplus
+   template:
+     metadata:
+       labels:
+         app: webgrabplus
+ 
+     spec:
+      containers:
+         - name: webgrabplus
+           image: harbor.casa.lan/multimedia/webgrabplus:latest
+           env:
+           - name: PGID
+             value: "10000"
+           - name: PUID
+             value: "10000"
+           - name: TZ
+             value: "America/Sao_Paulo"
+           volumeMounts:
+             - mountPath: /config
+               name: webgrabplus-config
+             - mountPath: /data
+               name: data
+      volumes:
+        - name: webgrabplus-config
+          hostPath:
+            path: /sharedfolders/data/webgrabplus
+        - name: data
+          hostPath:
+            path: /sharedfolders/data/webgrabplusdata

@@ -44,6 +44,8 @@
              value: "10"
            - name: AUTOMATED_CONVERSION_SOURCE_MIN_DURATION
              value: "60"
+             name: UMASK
+             value: "000"
            volumeMounts:
              - mountPath: /config
                name: handbrake-config

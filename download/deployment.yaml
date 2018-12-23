@@ -1,0 +1,40 @@
+---
+ apiVersion: apps/v1
+ kind: Deployment
+ metadata:
+   name: download
+   labels:
+     app: download
+ spec:
+   replicas: 1
+   selector:
+      matchLabels:
+        app: download
+   template:
+     metadata:
+       labels:
+         app: download
+ 
+     spec:
+      containers:
+         - name: download
+           image: harbor.casa.lan/multimedia/download:latest
+           env:
+           - name: UID
+             value: "10000"
+           - name: GID
+             value: "10000"
+           - name: TZ
+             value: "America/Sao_Paulo"
+           volumeMounts:
+             - mountPath: /opt/pyload/pyload-config
+               name: download-config
+             - mountPath: /opt/pyload/Downloads
+               name: download
+      volumes:
+        - name: download-config
+          hostPath:
+            path: /sharedfolders/data/download
+        - name: download
+          hostPath:
+            path: /srv/dev-disk-by-id-dm-name-vg_dados-lvol1/Downloads/
